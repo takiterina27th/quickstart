@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Post;
 use App\Http\Requests\StorePost;
 use App\User;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -60,26 +61,35 @@ class PostController extends Controller
      */
     public function store(StorePost $request)
     {   
-        $originalImg = $request->image;
-        if ($originalImg->isValid()) {
-            $filePath = $originalImg->store('public');
-            $image = str_replace('public/', '', $filePath);
+        $post = new Post;
+
+        $uploadImg = $request->file('image');
+        if ($uploadImg->isValid()) {
+        $path = Storage::disk('s3')->putFile('/', $uploadImg, 'public');
+        $post->image = Storage::disk('s3')->url($path);
         } else {
-            $image = "";
+            $post->image = "";
         }
 
-        $post = new Post;
+        // ローカルで画像を保存するための記述
+        // $originalImg = $request->image;
+        // if ($originalImg->isValid()) {
+        //     $filePath = $originalImg->store('public');
+        //     $image = str_replace('public/', '', $filePath);
+        // } else {
+        //     $image = "";
+        // }
+
+        
 
         $post->title = $request->input('title');
         $post->content = $request->input('content');
-        $post->image = $image;
+        // $post->image = $image;
         $post->user_id = Auth::user()->id;
 
         $post->save();
 
         return redirect('/');
-
-        // dd();
     }
 
     /**
