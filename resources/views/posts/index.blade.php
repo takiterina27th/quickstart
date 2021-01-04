@@ -44,7 +44,7 @@
                           @if($post->image == null)
                             <img class="card-img-top" src="/storage/no-image.png" >
                           @else
-                            <img class="card-img-top" src="/storage/{{$post->image}}" >
+                            <img class="card-img-top" src="{{$post->image}}" >
                           @endif
                           </a>
                           <div class="card-body">
