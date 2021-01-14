@@ -21,7 +21,7 @@
                       @if($post->image == null)
                         <img src="/storage/no-image.png" class="img-responsive d-block mx-auto" style="max-width: 100%; height: auto; width /***/:auto;">
                       @else
-                        <img src="/storage/{{$post->image}}" class="img-responsive d-block mx-auto" style="max-width: 100%; height: auto; width /***/:auto;">
+                        <img src="{{$post->image}}" class="img-responsive d-block mx-auto" style="max-width: 100%; height: auto; width /***/:auto;">
                       @endif
                     </div>
                     
